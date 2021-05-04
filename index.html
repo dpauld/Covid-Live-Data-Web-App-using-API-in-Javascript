@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF=8" />
+    <meta name="viewport" content="width=device-width, intial-scale=1.0" />
+    <title>Covid Live Data</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    />
+   </head>
+    <body>
+      <div class="container">
+        <h1 class="text-center mt-5">Covid 19 Live Data in</h1>
+        <br></br>
+        <div class="container">
+          <h2>Covid 19 Current Situation</h2>
+          <p>These datas are live data related to covid 19</p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Total Cases</th>
+                <th>Total Deaths</th>
+                <th>Total Recovered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="data"></tr>
+            </tbody>
+          </table>
+          <button onclick="refreshData()" class="btn btn-danger btn-block my-2">
+           Refresh Data
+          </button>
+        </div>
+      </div>
+    </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+ 
+  <script>
+    init()
+    function init(){
+     var url = "https:/api.covid19api.com/summary"
+     var data =''
+     fetch(url)
+     .then(response => response.json())
+     .then(data => {
+      console.log(data.Global.TotalConfirmed)
+
+      data = `<td>${data.Global.TotalConfirmed}</td>
+      <td>${data.Global.TotalDeaths}</td>
+      <td>${data.Global.TotalRecovered}</td>
+      `
+      $("#data").html(data)
+     })
+    }
+
+//     function init(){
+//      var url = "https:/api.covid19api.com/summary"
+//      var data =''
+//      $.get(url, function(data){
+//       console.log(data.Global.TotalConfirmed)
+//       tableCreate(data.Global)
+//      })
+//     }
+
+//     function tableCreate(dataObj) {
+//     //body reference 
+//     var id = document.getElementsById("data");
+  
+//     var entries = Object.entries(dataObj);
+
+//     // cells creation
+//     for (var j = 0; j < entries.length; j++) {
+//         // table row creation
+//         var row = document.createElement("tr");
+
+//         // Form and set the inner HTML directly
+//         row.innerHTML = `<td>${entries[j][0]}</td>${entries[j][1]}<td></td>`;
+
+//         //row added to end of table body
+//         id.appendChild(row);
+//     }
+// }
+
+    function refreshData(){
+     clearData()
+     init()
+    }
+    function clearData(){
+     document.getElementById("data").innerHTML = ''
+    }
+  </script>
+</html>
